@@ -6,22 +6,38 @@ import javax.persistence.Persistence;
 import java.time.LocalDateTime;
 
 public class ActivityTrackerMain {
+    private EntityManager entityManager;
+    private EntityManagerFactory entityManagerFactory;
 
     public static void main(String[] args) {
 
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory("pu");
-        EntityManager manager = factory.createEntityManager();
+        ActivityTrackerMain main = new ActivityTrackerMain();
+        main.openPersistent();
 
+        main.createActivityToPersistent(new Activity(
+                LocalDateTime.of(2000, 6, 7, 10, 10),
+                "First activity", ActivityType.BIKING));
 
-        manager.getTransaction().begin();
-        manager.persist(new Activity(LocalDateTime.of(2021,6,7,10,10),"First activity",ActivityType.BIKING));
-        manager.getTransaction().commit();
+        main.createActivityToPersistent(new Activity(
+                LocalDateTime.of(2000, 8, 9, 11, 12),
+                "Second activity", ActivityType.BASKETBALL));
 
-        manager.getTransaction().begin();
-        manager.persist(new Activity(LocalDateTime.of(2021,8,9,11,12),"Second activity",ActivityType.BASKETBALL));
-        manager.getTransaction().commit();
+        main.closePersistent();
+    }
 
-        manager.close();
-        factory.close();
+    private void openPersistent() {
+        entityManagerFactory = Persistence.createEntityManagerFactory("pu");
+        entityManager = entityManagerFactory.createEntityManager();
+    }
+
+    private void createActivityToPersistent(Activity activity) {
+        entityManager.getTransaction().begin();
+        entityManager.persist(activity);
+        entityManager.getTransaction().commit();
+    }
+
+    private void closePersistent() {
+        entityManager.close();
+        entityManagerFactory.close();
     }
 }
