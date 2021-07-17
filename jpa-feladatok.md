@@ -2,9 +2,9 @@
 
 * [X] Egyszerű mentés JPA-val
 * [X] Egyszerű mentés JPA-val - gyakorlat
-* [ ] További egyszerű műveletek JPA-val
-* [ ] További egyszerű műveletek JPA-val - gyakorlat
-* [ ] Architektúra és integrációs tesztelés
+* [X] További egyszerű műveletek JPA-val
+* [X] További egyszerű műveletek JPA-val - gyakorlat
+* [X] Architektúra és integrációs tesztelés
 * [ ] Entitások konfigurálása
 * [ ] Elsődleges kulcs
 * [ ] Entitások életciklusa
