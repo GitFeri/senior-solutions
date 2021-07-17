@@ -13,7 +13,7 @@ public class ActivityDao {
 
     private EntityManagerFactory entityManagerFactory;
 
-    public void saveActivity(Activity activity){
+    public void saveActivity(Activity activity) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
         entityManager.persist(activity);
@@ -23,11 +23,17 @@ public class ActivityDao {
 
     public Activity findActivityById(long id) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        return entityManager.find(Activity.class,id);
+        Activity activity = entityManager.find(Activity.class, id);
+        entityManager.close();
+        return activity;
     }
 
     public List<Activity> listActivities() {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        return entityManager.createQuery("select a from activity a order by a.description",Activity.class).getResultList();
+        List<Activity> activities = entityManager
+                .createQuery("SELECT e from Activity e order by e.description", Activity.class)
+                .getResultList();
+        entityManager.close();
+        return  activities;
     }
 }

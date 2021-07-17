@@ -1,7 +1,6 @@
 package activitytracker;
 
-
-import org.flywaydb.core.Flyway;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mariadb.jdbc.MariaDbDataSource;
@@ -10,6 +9,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -25,17 +25,14 @@ class ActivityDaoTest {
         dataSource.setUser("activitytracker");
         dataSource.setPassword("activitytracker");
 
-        Flyway flyway = Flyway.configure()
-//                .locations("/db/migration/activitytracker")
-                .dataSource(dataSource)
-                .load();
-        flyway.clean();
-        flyway.migrate();
-
         entityManagerFactory = Persistence.createEntityManagerFactory("pu");
         activityDao = new ActivityDao(entityManagerFactory);
     }
 
+    @AfterEach
+    public void done() {
+        entityManagerFactory.close();
+    }
 
     @Test
     void testSaveAndFindActivity() {
@@ -49,22 +46,15 @@ class ActivityDaoTest {
 
     @Test
     void testListActivities() {
-        Activity savedActivity5 = null;
-        Activity savedActivity3 = null;
-
         for (int i = 10; i > 0; i--) {
             Activity activity = new Activity(LocalDateTime.of(2000, 1, 1, i, 0),
                     "Any" + i, ActivityType.BIKING);
             activityDao.saveActivity(activity);
-
-            if (i == 5) {
-                savedActivity5 = activityDao.findActivityById(activity.getId());
-            }
-            if (i == 3) {
-                savedActivity3 = activityDao.findActivityById(activity.getId());
-            }
         }
 
-        assertEquals("Any3", savedActivity3.getDescription());
+        List<Activity> activities = activityDao.listActivities();
+        assertEquals(10,activities.size());
+        assertEquals("Any10", activities.get(1).getDescription());
+        assertEquals("Any5", activities.get(5).getDescription());
     }
 }
