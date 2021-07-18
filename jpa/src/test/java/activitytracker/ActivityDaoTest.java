@@ -53,7 +53,7 @@ class ActivityDaoTest {
         }
 
         List<Activity> activities = activityDao.listActivities();
-        assertEquals(10,activities.size());
+        assertEquals(10, activities.size());
         assertEquals("Any10", activities.get(1).getDescription());
         assertEquals("Any5", activities.get(5).getDescription());
     }

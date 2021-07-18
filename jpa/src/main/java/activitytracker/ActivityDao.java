@@ -5,6 +5,7 @@ import lombok.Data;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.validation.ConstraintViolationException;
 import java.util.List;
 
 @Data
@@ -34,6 +35,6 @@ public class ActivityDao {
                 .createQuery("SELECT e from Activity e order by e.description", Activity.class)
                 .getResultList();
         entityManager.close();
-        return  activities;
+        return activities;
     }
 }
