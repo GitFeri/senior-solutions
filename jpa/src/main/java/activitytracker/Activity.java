@@ -2,6 +2,7 @@ package activitytracker;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -14,7 +15,12 @@ import java.time.LocalDateTime;
 public class Activity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.TABLE,
+            generator = "table-generator")
+    @TableGenerator(name = "table-generator",
+            table = "act_id_gen",
+            pkColumnName = "id_gen",
+            valueColumnName = "id_val")
     private Long id;
 
     @Column(name = "start_time", nullable = false)
