@@ -57,4 +57,19 @@ class ActivityDaoTest {
         assertEquals("Any10", activities.get(1).getDescription());
         assertEquals("Any5", activities.get(5).getDescription());
     }
+
+
+    @Test
+    void testUpdateActivity() {
+        for (int i = 10; i > 0; i--) {
+            Activity activity = new Activity(LocalDateTime.of(2000, 1, 1, i, 0),
+                    "Any" + i, ActivityType.BIKING);
+            activityDao.saveActivity(activity);
+        }
+
+        activityDao.updateActivity(1, "Changed");
+
+        assertEquals("Changed", activityDao.findActivityById(1).getDescription());
+
+    }
 }
