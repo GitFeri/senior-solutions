@@ -3,6 +3,7 @@ package activitytracker;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -25,12 +26,13 @@ public class ActivityTrackerMain {
 
         Activity activity = new Activity(
                 LocalDateTime.of(2020, 8, 9, 11, 12),
-                "Second activity", ActivityType.RUNNING);
+                "Label + Tracks", ActivityType.RUNNING);
         activity.setLabels(List.of("első jel","második jel"));
+
+        activity.addTrackPoint(new TrackPoint(LocalDate.of(2021,8,1),19.1111,40.2222));
+        activity.addTrackPoint(new TrackPoint(LocalDate.of(2021,8,2),19.2222,40.3333));
+
         main.createActivityToPersistent(activity);
-
-
-
         main.closePersistent();
     }
 

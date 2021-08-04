@@ -9,7 +9,7 @@
 * [X] Elsődleges kulcs
 * [X] Entitások életciklusa
 * [X] Többértékű attribútumok
-* [ ] Kapcsolatok
+* [X] Kapcsolatok
 * [ ] Lekérdezések
 * [ ] Haladó lekérdezések
 * [ ] Deklaratív tranzakciókezelés

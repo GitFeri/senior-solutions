@@ -8,6 +8,7 @@ import org.mariadb.jdbc.MariaDbDataSource;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -78,12 +79,25 @@ class ActivityDaoTest {
         for (int i = 10; i > 0; i--) {
             Activity activity = new Activity(LocalDateTime.of(2000, 1, 1, i, 0),
                     "Any" + i, ActivityType.BIKING);
-            activity.setLabels(List.of("Első","Második " + i));
+            activity.setLabels(List.of("Első", "Második " + i));
             activityDao.saveActivity(activity);
         }
 
-        assertEquals("Második 5",activityDao.findActivityByIdWithLabels(6).getLabels().get(1));
-
-
+        assertEquals("Második 5", activityDao.findActivityByIdWithLabels(6).getLabels().get(1));
     }
+
+    @Test
+    void testFindActivityByIdWithTrackPoints() {
+        for (int i = 10; i > 0; i--) {
+            Activity activity = new Activity(LocalDateTime.of(2000, 1, 1, i, 0),
+                    "Any" + i, ActivityType.BIKING);
+            activity.addTrackPoint(new TrackPoint(LocalDate.of(2021, 8, i), 19.1111, 40.1111));
+            activity.addTrackPoint(new TrackPoint(LocalDate.of(2021, 7, i), 19.2222, 40.2222));
+            activity.addTrackPoint(new TrackPoint(LocalDate.of(2021, 6, i), 19.3333, 40.3333));
+            activityDao.saveActivity(activity);
+        }
+
+        assertEquals(19.3333, activityDao.findActivityByIdWithTrackPoints(6).getTrackPoints().get(0).getLat());
+    }
+
 }
