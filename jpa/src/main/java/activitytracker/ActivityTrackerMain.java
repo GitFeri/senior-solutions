@@ -4,6 +4,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class ActivityTrackerMain {
     private EntityManager entityManager;
@@ -21,6 +22,14 @@ public class ActivityTrackerMain {
         main.createActivityToPersistent(new Activity(
                 LocalDateTime.of(2000, 8, 9, 11, 12),
                 "Second activity", ActivityType.BASKETBALL));
+
+        Activity activity = new Activity(
+                LocalDateTime.of(2020, 8, 9, 11, 12),
+                "Second activity", ActivityType.RUNNING);
+        activity.setLabels(List.of("első jel","második jel"));
+        main.createActivityToPersistent(activity);
+
+
 
         main.closePersistent();
     }

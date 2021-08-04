@@ -72,4 +72,18 @@ class ActivityDaoTest {
         assertEquals("Changed", activityDao.findActivityById(1).getDescription());
 
     }
+
+    @Test
+    void testFindActivityByIdWithLabels() {
+        for (int i = 10; i > 0; i--) {
+            Activity activity = new Activity(LocalDateTime.of(2000, 1, 1, i, 0),
+                    "Any" + i, ActivityType.BIKING);
+            activity.setLabels(List.of("Első","Második " + i));
+            activityDao.saveActivity(activity);
+        }
+
+        assertEquals("Második 5",activityDao.findActivityByIdWithLabels(6).getLabels().get(1));
+
+
+    }
 }

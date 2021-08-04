@@ -2,11 +2,10 @@ package activitytracker;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "activities")
@@ -36,6 +35,11 @@ public class Activity {
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
+
+    @ElementCollection
+//    @CollectionTable(joinColumns=@JoinColumn(name="EMP_ID"))
+    @Column(name = "label")
+    private List<String> labels;
 
     public Activity(LocalDateTime startTime, String description, ActivityType type) {
         this.startTime = startTime;
